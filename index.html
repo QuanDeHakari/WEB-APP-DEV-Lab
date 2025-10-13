@@ -1,87 +1,60 @@
-<!DOCTYPE html>
+<!DOCTYPE HTML PUBLIC "-//W3C//DTD HTML 4.01 Frameset//EN">
 <html>
     <head>
+        <title>My personal website</title>
         <meta charset="UTF-8">
-        <title>My personal CV page</title>
-        <link rel="icon" type="image/x-icon" href="sprout.png">
-        <meta name="description" content="Personal CV">
-        <meta name="keywords" content="HTML, CSS, CV">
+        <link rel="icon" type="image/x-icon" href="Lab 1/Exercise/assets/favicon.png">
+
+        <meta name="description" content="Homepage for personal website">
+        <meta name="keywords" content="HTML, personal website">
         <meta name="autor" content="Quan On">
         <meta name="viewport" content="width=device-width, initial-scale=1.0">
 
-        <meta property="og:title" content="My personal CV page"/>
-        <meta property="og:description" content="Personal CV" />
-        <meta property="og:image" content="sprout.png" />
-        <meta property="og:image:alt" content="A sprout" />
+        <meta property="og:title" content="My personal website"/>
+        <meta property="og:description" content="Homepage for personal website" />
 
         <style>
-            body{
-                margin: 20px;
-                padding:0;
-                border-top: solid 1px;
-            }
-            h4{
-                color:blue;
-            }
-            p, ul, li , h4{
-                margin:0;
-            }
-            .bullet{
-                color:green;
-                margin: 10px 0px 10px 0px;
-            }
-            a{
-                text-decoration: none;
-                color: black;
-            }
-        </style>
+        body, html {
+            height: 100%;
+            margin: 0;
+        }
+        .header {
+            height: 20%;
+        }
+        .main {
+            height: 70%;
+            display: flex;
+        }
+        .nav {
+            width: 25%;
+        }
+        .content {
+            width: 75%;
+        }
+        .footer {
+            height: 10%;
+        }
+        iframe {
+            width: 100%;
+            height: 100%;
+            border: none;
+        }
+    </style>
     </head>
     <body>
-        <h1>On Minh Quan</h1>
-        <p class="bullet">Junior Frontend Developer</p>
-            <p>
-                123 Marri<br>
-                Thu Duc City, ST 12345<br>
-                (84) 943-867-809<br>
-                onminhquan@gmail.com
-            </p>
-        <p class="bullet">Skills</p>
-            <ul>
-                <li>HTML, CSS, JavaScript/TypeScript</li>
-                <li>Accessibility, figma to design</li>
-                <li>Responsive Web design</li>
-                <li>Technical writting, presentation</li>
-            </ul>
-        <p class="bullet">Education</p>
-            <h4>Intenational University, Bachelor</h4>
-            <p>
-                September 2023 to June 2027
-            </p>
-        <p class="bullet">Experience</p>
-            <h4>ABC, Ho Chi Minh - Software Enginering</h4>
-            <p>
-                January 2024 to June 2024
-                <ul>
-                    <li>Achievement #1</li>
-                    <li>Achievement #2</li>
-                    <li>Achievement #3</li>
-                </ul>
-                Skills: Skill #1, Skill #2
-            </p>
-            <h4>XYZ, Ha Noi - Network Enginering</h4>
-            <p>
-                January 2025 to June 2025
-                <ul>
-                    <li>Achievement #1</li>
-                    <li>Achievement #2</li>
-                    <li>Achievement #3</li>
-                </ul>
-                Skills: Skill #1, Skill #2
-            </p>
-        <p class="bullet">Across the Internet</p>
-        <nav>
-            <a href="https://github.com/QuanDeHakari">Github</a><br>
-            <a href="https://www.linkedin.com/in/on-quan-2b9695364">LinkedIn</a>
-        </nav>
+        <div class="header">
+            <iframe src="Lab 1/Exercise/header.html" name="header"></iframe>
+        </div>
+        <div class="main">
+            <div class="nav">
+                <iframe src="Lab 1/Exercise/nav.html" name="navigation"></iframe>
+            </div>
+            <div class="content">
+                <iframe src="Lab 1/Exercise/home.html" name="content"></iframe>
+            </div>
+        </div>
+        <div class="footer">
+            <iframe src="Lab 1/Exercise/footer.html" name="footer"></iframe>
+        </div>
     </body>
 </html>
