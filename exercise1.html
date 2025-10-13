@@ -1,0 +1,61 @@
+<!DOCTYPE html>
+<head>
+    <title>Survey form</title>
+    <link rel="stylesheet" href="exercise1.css">
+</head>
+<body>
+    <main>
+    <img src="assets/IULogo.png" alt="HCMIU logo">
+    <div>
+        <h1>Survey</h1>
+        If you have a moment, we'd appreciate it if you would fill out this survey.
+    </div>
+    <form>
+        <div class="information">
+            <h2>Your infomation</h2>
+            <table>
+                <tr>
+                    <td><label for="first-name">First Name</label></td>
+                    <td><input id="first-name" type="text" required/></td>
+                </tr>
+                <tr>
+                    <td><label for="last-name">Last Name</label></td>
+                    <td><input id="last-name" type="text" require/></td>
+                </tr>
+                <tr>
+                    <td><label for="email">Email</label></td>
+                    <td><input id="email" type="email" required/></td>
+                </tr>
+                <tr>
+                    <td><label for="date-of-birth">Date of Birth</label></td>
+                    <td><input if="date-of-birth" type="date" required/></td>
+                </tr>
+            </table>
+        </div>
+        <div>
+            <h2>How did you hear about us</h2>
+            <div>
+                <input type="radio" name="source"/>Search engine
+                <input type="radio" name="source"/>Word of mouth
+                <input type="radio" name="source"/>Social Media
+                <input type="radio" name="source"/>Other
+            </div>
+        </div>
+        <div class="receive">
+            <h2>Would you like to receive announcements about new CDs and special offers?</h2>
+            <div>
+                <div><input type="checkbox" name="receive"/>YES, i'd like that.<br></div>
+                <div><input type="checkbox" name="receive"/>YES, please send me email announcements</div>
+            </div>
+            <div>
+            Please contact me by: <select name="contact">
+                <option name="contact">Email or postal mail</option>
+                <option name="contact">Email only</option>
+                <option name="contact">Postal mail only</option>
+            </select>
+            </div>
+        </div>
+        <button type="submit">Submit</button>
+    </form>
+    </main>
+</body>
