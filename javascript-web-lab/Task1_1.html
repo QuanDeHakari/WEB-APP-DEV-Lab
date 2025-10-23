@@ -1,0 +1,217 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>Form Validator</title>
+    <style>
+        .form-container {
+            max-width: 400px;
+            margin: 50px auto;
+            padding: 30px;
+            border: 1px solid #ddd;
+            border-radius: 8px;
+        }
+        
+        .form-group {
+            margin-bottom: 20px;
+        }
+        
+        label {
+            display: block;
+            margin-bottom: 5px;
+            font-weight: bold;
+        }
+        
+        input {
+            width: 100%;
+            padding: 10px;
+            border: 2px solid #ddd;
+            border-radius: 4px;
+            font-size: 14px;
+        }
+        
+        input.valid {
+            border-color: #28a745;
+        }
+        
+        input.invalid {
+            border-color: #dc3545;
+        }
+        
+        .error-message {
+            color: #dc3545;
+            font-size: 12px;
+            margin-top: 5px;
+            display: none;
+        }
+        
+        .error-message.show {
+            display: block;
+        }
+        
+        button[type="submit"] {
+            width: 100%;
+            padding: 12px;
+            background: #007bff;
+            color: white;
+            border: none;
+            border-radius: 4px;
+            font-size: 16px;
+            cursor: pointer;
+        }
+        
+        button[type="submit"]:disabled {
+            background: #ccc;
+            cursor: not-allowed;
+        }
+    </style>
+</head>
+<body>
+    <div class="form-container">
+        <h2>Sign Up Form</h2>
+        <form id="signupForm">
+            <div class="form-group">
+                <label for="username">Username</label>
+                <input type="text" id="username" placeholder="Enter username">
+                <div class="error-message" id="usernameError"></div>
+            </div>
+            <div class="form-group">
+                <label for="email">Email</label>
+                <input type="email" id="email" placeholder="Enter email">
+                <div class="error-message" id="emailError"></div>
+            </div>
+            <div class="form-group">
+                <label for="password">Password</label>
+                <input type="password" id="password" placeholder="Enter password, at least 8 letters, 1 uppercase, 1 number" autocomplete="off">
+                <div class="error-message" id="passwordError"></div>
+            </div>
+            <div class="form-group">
+                <label for="confirmPassword">Confirm Password</label>
+                <input type="password" id="confirmPassword" placeholder="Enter confirm password" autocomplete="off">
+                <div class="error-message" id="confirmPasswordError"></div>
+            </div>
+            <button type="submit" id="submitBtn" disabled>Sign Up</button>
+        </form>
+    </div>
+
+    <script>
+        // TODO: Implement validation functions
+        
+        function validateUsername(username) {
+            if(username.length<4 || username.length>20){
+                showError("usernameError", "Number of letters 4-20");
+                return false;
+            }
+            if(!/^[a-zA-Z0-9]+$/.test(username)){
+                showError("usernameError", "Alphanumeric only");
+                return false;
+            };
+            return true;
+        }
+        
+        function validateEmail(email) {
+            const emailRegex = /^[^\s@]+@[^\s@]+\.[^\s@]+$/;
+            if(!emailRegex.test(email)){
+                return false;
+            }
+            return true;
+        }
+        
+        function validatePassword(password) {
+            if(!/^(?=.*[A-Z])(?=.*\d).{8,}$/.test(password)){
+                return false;
+            }
+            return true;
+        }
+        
+        function validatePasswordMatch(pass1, pass2) {
+            if(!validatePassword(pass1)){
+                showError("confirmPasswordError", "Correct your password first");
+                return false;
+            }
+            if(pass1!==pass2){
+                showError("confirmPasswordError", "The input doesn't match your password");
+                return false;
+            }
+            return true;
+        }
+        
+        function showError(fieldId, message) {
+            fieldError = document.getElementById(fieldId);
+            fieldError.innerHTML = message;
+            fieldError.style.display = "block";
+            return;
+        }
+        
+        function clearError(fieldId) {
+            fieldError = document.getElementById(fieldId);
+            fieldError.innerHTML = "";
+            fieldError.style.display = "block";
+        }
+        
+        function validateForm() {
+            const username = document.getElementById("username");
+            const email = document.getElementById("email");
+            const password = document.getElementById("password");
+            const confirmPassword = document.getElementById("confirmPassword");
+            const submitBtn = document.getElementById("submitBtn");
+
+            let isValid=true;
+
+            if(!validateUsername(username.value.trim())){
+                username.classList.remove("valid");
+                username.classList.add("invalid");
+                isValid = false;
+            } else {
+                username.classList.remove("invalid");
+                username.classList.add("valid");
+                clearError("usernameError");
+            }
+
+            if(!validateEmail(email.value.trim())){
+                showError("emailError", "Invalid email format");
+                email.classList.remove("valid");
+                email.classList.add("invalid");
+                isValid = false;
+            } else {
+                clearError("emailError");
+                email.classList.remove("invalid");
+                email.classList.add("valid");
+            }
+
+            if(!validatePassword(password.value)){
+                showError("passwordError", "Invalid password form, at least 8 letters, 1 uppercase, 1 number");
+                password.classList.remove("valid");
+                password.classList.add("invalid");
+                isValid = false;
+            } else {
+                clearError("passwordError");
+                password.classList.remove("invalid");
+                password.classList.add("valid");
+            }
+
+            if(!validatePasswordMatch(password.value, confirmPassword.value)){
+                confirmPassword.classList.remove("valid");
+                confirmPassword.classList.add("invalid");
+                isValid = false;
+            } else  {
+                clearError("confirmPasswordError");
+                confirmPassword.classList.remove("invalid");
+                confirmPassword.classList.add("valid");
+            }
+
+            submitBtn.disabled = !isValid;
+        }
+        
+        document.querySelectorAll("input").forEach(input => {
+            input.addEventListener("input", validateForm);
+        });
+        
+        document.getElementById('signupForm').addEventListener('submit', function(e) {
+            e.preventDefault();
+            alert("Submit successfully");
+            console.log(`${document.getElementById("username").value.trim()}, ${document.getElementById("email").value.trim()}`)
+        });
+    </script>
+</body>
+</html>

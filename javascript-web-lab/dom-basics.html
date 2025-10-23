@@ -1,0 +1,131 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>DOM Basics</title>
+    <style>
+        .container {
+            max-width: 600px;
+            margin: 50px auto;
+            padding: 20px;
+            border: 2px solid #333;
+            border-radius: 8px;
+        }
+        
+        .task-item {
+            padding: 10px;
+            margin: 10px 0;
+            background: #f0f0f0;
+            border-radius: 4px;
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+        }
+        
+        .completed {
+            text-decoration: line-through;
+            opacity: 0.6;
+        }
+        
+        button {
+            padding: 8px 16px;
+            margin: 5px;
+            cursor: pointer;
+            border: none;
+            border-radius: 4px;
+            background: #007bff;
+            color: white;
+        }
+        
+        button:hover {
+            background: #0056b3;
+        }
+        
+        input {
+            padding: 8px;
+            border: 1px solid #ddd;
+            border-radius: 4px;
+            width: 70%;
+        }
+    </style>
+</head>
+<body>
+    <div class="container">
+        <h1>Simple Todo List</h1>
+        
+        <div>
+            <input type="text" id="taskInput" placeholder="Enter a task...">
+            <button onclick="addTask()">Add Task</button>
+        </div>
+        
+        <div id="taskList"></div>
+    </div>
+
+    <script>
+        // Array to store tasks
+        let tasks = [];
+
+        // Add a new task
+        function addTask() {
+            const input = document.getElementById('taskInput');
+            const taskText = input.value.trim();
+            
+            if (taskText === '') {
+                alert('Please enter a task!');
+                return;
+            }
+            
+            // Create task object
+            const task = {
+                id: Date.now(),
+                text: taskText,
+                completed: false
+            };
+            
+            tasks.push(task);
+            input.value = '';
+            renderTasks();
+        }
+
+        // Toggle task completion
+        function toggleTask(id) {
+            const task = tasks.find(t => t.id === id);
+            if (task) {
+                task.completed = !task.completed;
+                renderTasks();
+            }
+        }
+
+        // Delete a task
+        function deleteTask(id) {
+            tasks = tasks.filter(t => t.id !== id);
+            renderTasks();
+        }
+
+        // Render all tasks to the DOM
+        function renderTasks() {
+            const taskList = document.getElementById('taskList');
+            
+            if (tasks.length === 0) {
+                taskList.innerHTML = '<p style="color: #999;">No tasks yet. Add one above!</p>';
+                return;
+            }
+            
+            taskList.innerHTML = tasks.map(task => `
+                <div class="task-item ${task.completed ? 'completed' : ''}">
+                    <span onclick="toggleTask(${task.id})" style="cursor: pointer; flex: 1;">
+                        ${task.text}
+                    </span>
+                    <button onclick="deleteTask(${task.id})" 
+                            style="background: #dc3545;">
+                        Delete
+                    </button>
+                </div>
+            `).join('');
+        }
+
+        // Initialize
+        renderTasks();
+    </script>
+</body>
+</html>
