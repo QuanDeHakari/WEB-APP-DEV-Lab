@@ -95,6 +95,7 @@
             padding: 15px;
             border-radius: 8px;
             margin-bottom: 20px;
+            display: none;
         }
         
         .recent-searches {
@@ -124,38 +125,101 @@
         </h1>
         
         <div class="search-box">
+            <div style="display: flex;">
             <input type="text" id="cityInput" placeholder="Enter city name..." 
                    onkeypress="if(event.key==='Enter') searchWeather()">
             <button onclick="searchWeather()">Search</button>
+            </div>
             <div class="recent-searches" id="recentSearches"></div>
         </div>
         
-        <div id="errorMessage"></div>
-        <div id="weatherDisplay"></div>
-        <div id="forecastDisplay"></div>
+        <div class="loading" id="loading" style="display: none;">⏳ Loading...</div>
+        <div id="errorMessage" class="error"></div>
+        <div id="weatherDisplay" class="weather-card"></div>
+        <h1>5-day forecast</h1>
+        <div id="forecastDisplay" class="forecast-grid"></div>
     </div>
 
     <script>
-        const API_KEY = 'YOUR_API_KEY_HERE'; // Get from openweathermap.org
+        const API_KEY = 'e929fe4ce3f5899009c38176be141b4e'; // Get from openweathermap.org
+        const icons =[
+            {name: "Clear", image: '☀️'},
+            {name: "Clouds", image: '☁️'},
+            {name: "Rain", image: '🌧️'},
+            {name: "Snow", image: '❄️'},
+            {name: "Thunder", image: '⛈️'}
+        ];
         
         // TODO: Implement functions
         
         async function fetchWeather(city) {
-            // TODO: Fetch current weather from API
+            const url = `https://api.openweathermap.org/data/2.5/weather?q=${city}&appid=${API_KEY}&units=metric`;
+            document.getElementById("loading").style.display = "block";
+
+            try{
+                const response = await fetch(url);
+                if (!response.ok) throw new Error(`City not found (${response.status})`);
+
+                const data = await response.json();
+                displayWeather(data);
+                return fetchForecast(city);
+            }catch(error){
+                document.getElementById("loading").style.display = "none";
+                showError(error.message);
+            }
         }
         
         async function fetchForecast(city) {
-            // TODO: Fetch 5-day forecast from API
+            const url = `https://api.openweathermap.org/data/2.5/forecast?q=${city}&appid=${API_KEY}&units=metric`;
+            document.getElementById("loading").style.display = "block";
+
+            try{
+                const response = await fetch(url);
+                if (!response.ok) throw new Error(`Fail to load data (${response.status})`);
+
+                const data = await response.json();
+                console.log(data);
+                displayForecast(data);
+                document.getElementById("loading").style.display = "none";
+                return true;
+            }catch(error){
+                document.getElementById("loading").style.display = "none";
+                showError(error.message)
+            }
         }
         
         function displayWeather(data) {
-            // TODO: Display current weather
-            // data.main.temp, data.weather[0].description
-            // data.main.humidity, data.wind.speed
+            const weather = document.getElementById("weatherDisplay");
+            weather.innerHTML = `
+            <div style="display: flex; flex-direction: column; gap: 10px;">
+                <div style="display: flex; flex-direction: column;">
+                    <span>${data.name}</span>
+                    <span>${data.weather[0].description} ${icons.find(icon => icon.name === data.weather[0].main).image}</span>
+                    <span class="temp-display">${data.main.temp}°C</span>
+                </div>
+                <div>
+                    <span>Humidity: ${data.main.humidity}%</span>
+                    <span style="padding-left: 20px;">Wind: ${data.wind.speed} km/h</span>
+                </div>
+            </div>
+            `;
         }
         
         function displayForecast(data) {
             // TODO: Display forecast (filter for one per day)
+            const forecast = document.getElementById("forecastDisplay");
+            const daily = data.list.filter(item => item.dt_txt.includes("12:00:00"));
+
+            forecast.innerHTML = daily.map(day =>{
+                const dayName = new Date(day.dt_txt).toLocaleDateString("en-US", {weekday:"short"});
+                return `
+                    <div class="forecast-item">
+                        <span>${dayName}</span>
+                        <span>${icons.find(icon => icon.name === day.weather[0].main).image}</span>
+                        <span>${day.main.temp}°C</span>
+                    </div>
+                `;
+            }).join('');
         }
         
         async function searchWeather() {
@@ -163,22 +227,49 @@
             // TODO: Handle loading state
             // TODO: Handle errors
             // TODO: Save to recent searches
+            const city = document.getElementById("cityInput").value.trim();
+            if(fetchWeather(city)) clearError();
+            saveRecentSearch(city);
         }
         
         function saveRecentSearch(city) {
-            // TODO: Save to localStorage (max 5 cities)
+            let searches = JSON.parse(localStorage.getItem("recentSearches")) || [];
+
+            searches.unshift(city);
+            searches = [...new Set(searches)];
+            if (searches.length > 5) searches = searches.slice(0, 5);
+
+            localStorage.setItem("recentSearches", JSON.stringify(searches));
+            loadRecentSearches();
         }
         
         function loadRecentSearches() {
-            // TODO: Load and display recent searches
+            const recent = document.getElementById("recentSearches");
+            const searches = JSON.parse(localStorage.getItem("recentSearches")) || [];
+
+            if (searches.length === 0) {
+                recent.innerHTML = `<span>No recent searches</span>`;
+            } else {
+                recent.innerHTML = `
+            <div style="display: flex; flex-wrap: wrap; gap: 8px;">
+                ${searches.map(city => `
+                    <span class="recent-city" onclick="fetchWeather('${city}')">
+                        ${city}
+                    </span>
+                `).join('')}
+            </div>
+            `;
+            }
         }
         
         function showError(message) {
-            // TODO: Display error message
+            const msg = document.getElementById('errorMessage');
+            msg.innerHTML = message;
+            msg.style.display = 'block';
         }
         
         function clearError() {
-            // TODO: Clear error message
+            const msg = document.getElementById('errorMessage').style.display = 'none';
         }
         
         // Initialize
