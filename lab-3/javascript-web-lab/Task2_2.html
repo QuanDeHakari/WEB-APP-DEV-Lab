@@ -1,0 +1,298 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>GitHub Repo Finder</title>
+    <style>
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+        
+        body {
+            font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+            background: #0d1117;
+            color: #c9d1d9;
+            padding: 20px;
+        }
+        
+        .container {
+            max-width: 1000px;
+            margin: 0 auto;
+        }
+        
+        .header {
+            text-align: center;
+            margin-bottom: 40px;
+        }
+        
+        .header h1 {
+            color: #58a6ff;
+            margin-bottom: 10px;
+        }
+        
+        .search-container {
+            background: #161b22;
+            padding: 20px;
+            border-radius: 8px;
+            margin-bottom: 30px;
+        }
+        
+        .search-box {
+            display: flex;
+            gap: 10px;
+            margin-bottom: 15px;
+        }
+        
+        .search-box input {
+            flex: 1;
+            padding: 12px;
+            background: #0d1117;
+            border: 1px solid #30363d;
+            border-radius: 6px;
+            color: #c9d1d9;
+            font-size: 16px;
+        }
+        
+        .search-box button {
+            padding: 12px 30px;
+            background: #238636;
+            color: white;
+            border: none;
+            border-radius: 6px;
+            cursor: pointer;
+            font-size: 16px;
+        }
+        
+        .search-box button:hover {
+            background: #2ea043;
+        }
+        
+        .filters {
+            display: flex;
+            gap: 10px;
+            align-items: center;
+        }
+        
+        .filters label {
+            color: #8b949e;
+        }
+        
+        .filters select {
+            padding: 8px 12px;
+            background: #0d1117;
+            border: 1px solid #30363d;
+            border-radius: 6px;
+            color: #c9d1d9;
+        }
+        
+        .repo-card {
+            background: #161b22;
+            border: 1px solid #30363d;
+            border-radius: 8px;
+            padding: 20px;
+            margin-bottom: 15px;
+            transition: transform 0.2s;
+        }
+        
+        .repo-card:hover {
+            transform: translateY(-2px);
+            border-color: #58a6ff;
+        }
+        
+        .repo-name {
+            color: #58a6ff;
+            font-size: 20px;
+            font-weight: bold;
+            text-decoration: none;
+        }
+        
+        .repo-name:hover {
+            text-decoration: underline;
+        }
+        
+        .repo-description {
+            color: #8b949e;
+            margin: 10px 0;
+        }
+        
+        .repo-meta {
+            display: flex;
+            gap: 20px;
+            font-size: 14px;
+            color: #8b949e;
+        }
+        
+        .language-badge {
+            display: inline-block;
+            padding: 4px 10px;
+            background: #1f6feb;
+            border-radius: 12px;
+            font-size: 12px;
+        }
+        
+        .loading {
+            text-align: center;
+            padding: 40px;
+            color: #8b949e;
+        }
+        
+        .error {
+            background: #da3633;
+            color: white;
+            padding: 15px;
+            border-radius: 6px;
+            margin-bottom: 20px;
+        }
+        
+        .load-more {
+            text-align: center;
+            margin: 30px 0;
+        }
+        
+        .load-more button {
+            padding: 12px 40px;
+            background: #21262d;
+            border: 1px solid #30363d;
+            color: #c9d1d9;
+            border-radius: 6px;
+            cursor: pointer;
+            font-size: 16px;
+        }
+        
+        .load-more button:hover {
+            background: #30363d;
+        }
+    </style>
+</head>
+<body>
+    <div class="container">
+        <div class="header">
+            <h1>🔍 GitHub Repository Finder</h1>
+            <p style="color: #8b949e;">Search and explore GitHub repositories</p>
+        </div>
+        
+        <div class="search-container">
+            <div class="search-box">
+                <input type="text" id="searchInput" placeholder="Search repositories..." 
+                       onkeypress="if(event.key==='Enter') performSearch()">
+                <button onclick="performSearch()">Search</button>
+            </div>
+            
+            <div class="filters">
+                <label>Sort by:</label>
+                <select id="sortSelect" onchange="performSearch()">
+                    <option value="stars">⭐ Stars</option>
+                    <option value="forks">🔱 Forks</option>
+                    <option value="updated">🕒 Recently Updated</option>
+                </select>
+            </div>
+        </div>
+        
+        <div class="loading" id="loading" style="display: none;">⏳ Loading...</div>
+        <div id="errorMessage" class="error" style="display: none;"></div>
+        <div id="repoList"></div>
+        <div id="loadMoreContainer" class="load-more" style="display: none;">
+            <button onclick="loadMore()">Load more</button>
+        </div>
+    </div>
+
+    <script>
+        let currentPage = 1;
+        let currentQuery = '';
+        let totalResults = 0;
+        
+        // TODO: Implement functions
+        
+        async function searchRepositories(query, sort = 'stars', page = 1) {
+            // TODO: Fetch repositories from GitHub API
+            const url = `https://api.github.com/search/repositories?q=${query}&sort=${sort}&page=${page}&per_page=10`;
+            document.getElementById('loading').style.display = 'block';
+
+            try {
+                const response = await fetch(url);
+                if (!response) throw new Error(`Failed to load the content (${response.status})`);
+
+                const data = await response.json();
+                if (page===1) displayRepositories(data.items, false);
+                    else displayRepositories(data.items, true);
+                document.getElementById('loading').style.display = 'none';
+            } catch(error){
+                document.getElementById('loading').style.display = 'none';
+                showError(error.message);
+            }
+        }
+        
+        function displayRepositories(repos, append = false) {
+            // TODO: Display repository cards
+            // If append is true, add to existing results
+            // Otherwise, replace all results
+            const displayList = document.getElementById("repoList");
+
+            const newPage = repos.map(repo=> `${createRepoCard(repo)}`).join('');
+            displayList.innerHTML = append? displayList.innerHTML + newPage : newPage;
+            document.getElementById("loadMoreContainer").style.display = 'block';
+        }
+        
+        function createRepoCard(repo) {
+            // TODO: Create HTML for a single repository card
+            // Include: name, description, stars, forks, language
+            // repo.name, repo.description, repo.stargazers_count
+            // repo.forks_count, repo.language, repo.html_url, repo.owner.login
+            return `
+                <div class="repo-card">
+                    <div class="repo-meta">
+                        <a href="${repo.html_url}">${repo.name}</a>
+                        <span>${repo.owner.login}</span>
+                        <span>⭐ ${formatNumber(repo.stargazers_count)}</span>
+                        <span>🔱 ${formatNumber(repo.forks_count)}</span>
+                    </div>
+                    <div class="repo-description">${repo.description}</div>
+                    <div class="language-badge">${repo.language}</div>
+                </div>
+            `;
+        }
+        
+        async function performSearch() {
+            // TODO: Get search query and sort option
+            // TODO: Reset page to 1
+            // TODO: Call searchRepositories
+            // TODO: Display results
+            currentQuery = document.getElementById("searchInput").value.trim();
+            const sortOp = document.getElementById("sortSelect").value;
+            currentPage = 1;
+
+            searchRepositories(currentQuery, sortOp, currentPage);
+        }
+        
+        async function loadMore() {
+            // TODO: Increment page
+            // TODO: Fetch next page
+            // TODO: Append results
+            currentPage++;
+            const sortOp = document.getElementById("sortSelect").value;
+            
+            searchRepositories(currentQuery, sortOp, currentPage);
+        }
+        
+        function showError(message) {
+            const msg = document.getElementById("errorMessage");
+            msg.innerHTML = message;
+            msg.style.display = 'block';
+        }
+        
+        function clearError() {
+            const msg = document.getElementById('errorMessage').style.display = 'none';
+        }
+        
+        function formatNumber(num) {
+            // TODO: Format large numbers (e.g., 1500 -> 1.5k)
+            if (num >= 1000) {
+                return (num / 1000).toFixed(1) + 'k';
+            }
+            return num;
+        }
+    </script>
+</body>
+</html>
