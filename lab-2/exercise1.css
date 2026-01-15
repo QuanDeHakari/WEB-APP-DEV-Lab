@@ -1,0 +1,31 @@
+body{
+    margin: 0;
+    width: 80%
+}
+main{
+    width: 80%;
+    padding: 0 20px 0 20px;
+    border: solid blue;
+}
+
+img{
+    width: 100px;
+}
+
+h1, h2{
+    color:rgb(90, 181, 150);
+}
+
+.information{
+    display: flex;
+    flex-direction: column;
+    width: 80%;
+}
+
+.information > label{
+    
+}
+
+.receive > div, .receive div > div{
+    margin-bottom: 15px;
+}

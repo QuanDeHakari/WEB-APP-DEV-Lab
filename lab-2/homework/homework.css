@@ -1,0 +1,166 @@
+* {
+  box-sizing: border-box;
+  margin: 0;
+  padding: 0;
+}
+body{
+    margin: 0;
+    background-color: #800000;
+    width: 100%;
+    max-height: 100vh;
+}
+.container{
+    box-sizing: border-box;
+    display: flex;
+    flex-direction: column;
+    margin: 3px;
+}
+
+h1, h3{
+    color: #800000;
+}
+h3{
+    font-size: 1.3em;
+    margin-bottom: 8px;
+}
+h4{
+    font-size: 1.1em;
+}
+h5{
+    font-size: 1.5em;
+}
+hr{
+    background-color: #800000;
+    height: 4px;
+    margin: 2px 0px;
+}
+
+header{
+    display: flex;
+    align-items: center;
+    justify-content: flex-start;
+    min-height: 100px;
+    width: 100%;
+    background: linear-gradient(20deg, orange, white, orange);
+    box-sizing: border-box;
+    padding: 10px 20px;
+}
+header div{
+    align-items: center;
+}
+header img{
+    height: 100%;
+    max-height: 80px;
+    width: auto;
+    object-fit: contain;
+    margin-right: 15px;
+}
+
+nav ul {
+    list-style-type: none;
+    margin: 0;
+    padding: 0;
+    display: flex;
+    justify-content: center;
+}
+nav ul li {
+    width: 20%;
+    position: relative;
+}
+nav a {
+    display: flex;
+    padding: 10px 20px;
+    color: white;
+    text-decoration: none;
+}
+nav >ul > li > a {
+  justify-content: center;
+}
+
+.submenu {
+    display: none;
+    position: absolute;
+    top: 100%;
+    left: 0;
+    background-color: #800000;
+    flex-direction: column;
+}
+.dropdown:hover .submenu {
+    display: block;
+}
+.submenu a {
+    padding: 10px 15px;
+    white-space: nowrap;
+}
+
+main{
+    background-color: antiquewhite;
+    display: flex;
+}
+.left{
+    width: 30%;
+    padding: 10px;
+}
+.left div{
+    display: flex;
+    flex-direction: column;
+    margin-bottom: 20px;
+}
+.left img{
+    height: 60px;
+    width: 60px;
+}
+.left a{
+    margin: 0;
+    font-weight: bolder;
+}
+
+.right{
+    width: 70%;
+    padding: 10px;
+}
+.right > div{
+    display: flex;
+}
+.right img{
+    height: 40%;
+    width: 40%;
+    border: solid 1px;
+    margin-left: 10px;
+}
+.right h3{
+    margin-bottom: 3px;
+}
+.right li{
+    list-style-type: circle;
+    list-style-position: inside;
+}
+
+blockquote {
+  quotes: "“" "”" "‘" "’";
+  padding: 0px 25px ;
+  font-style: italic;
+}
+blockquote::before {
+  content: open-quote;
+}
+blockquote::after {
+  content: close-quote;
+}
+
+footer {
+    color: white;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+}
+
+.highlight {
+  text-shadow: 1px 1px 2px #800000;
+  font-weight: bold;
+}
+.highlight sup {
+  font-size: 0.6em;
+  vertical-align: super;
+  margin-left: 1px;
+}

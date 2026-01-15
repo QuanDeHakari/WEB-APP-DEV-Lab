@@ -1,0 +1,86 @@
+* {
+  box-sizing: border-box;
+}
+body{
+    margin: 0;
+    background: linear-gradient(white, orange);
+    border: solid 1px;
+}
+
+body>div{
+    margin: 30px;
+    border: solid 1px;
+}
+
+img{
+    width: 100px;
+}
+
+header{
+    width: 100%;
+    height: 15%;
+    display: flex;
+    margin-bottom: 5px;
+    padding: 10px;
+    background-color: white;
+}
+header div{
+    align-content: center;
+}
+header div *{
+    margin: 5px;
+}
+
+footer{
+    width: 100%;
+    height: 70px;
+    display: flex;
+    justify-content: right;
+    align-items: center;
+    margin-top: 5px;
+    padding-right: 20px;
+    background-color: white;
+}
+
+.white{
+    color: white;
+}
+.orange{
+    color: orange;
+}
+.purple{
+    color: purple;
+}
+
+.main{
+    display: flex;
+    height: 75%;
+    background-color: white;
+    padding: 20px;
+}
+.left{
+    width: 60%;
+    padding-right: 40px;
+}
+.left > p, .left > h2, left > ul{
+    margin: 10px;
+}
+.left div{
+    margin: 30px 10px 10px 10px;
+}
+
+.right{
+    width: 40%;
+}
+.right div{
+    background-color: orange;
+    width: 100%;
+    padding: 15px 10px 15px 10px;
+}
+.right div *{
+    margin: 5px;
+}
+
+em{
+    font-weight: 1000;
+}
