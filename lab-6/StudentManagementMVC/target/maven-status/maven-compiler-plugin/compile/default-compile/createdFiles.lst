@@ -1,0 +1,13 @@
+dao\StudentDAO.class
+filter\AdminFilter.class
+controller\PasswordHashGenerator.class
+controller\DashboardController.class
+controller\StudentController.class
+filter\AuthFilter.class
+controller\LoginController.class
+model\Student.class
+com\mycompany\studentmanagementmvc\JakartaRestConfiguration.class
+dao\UserDAO.class
+controller\LogoutController.class
+com\mycompany\studentmanagementmvc\resources\JakartaEE11Resource.class
+model\User.class
