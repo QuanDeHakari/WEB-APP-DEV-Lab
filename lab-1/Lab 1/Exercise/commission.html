@@ -1,0 +1,111 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <title>Commission</title>
+    <style>
+        body, html {
+            margin: 0;
+            padding: 0;
+            height: 100%;
+            background: linear-gradient(to right,red, white 2%)
+        }
+        form{
+            width: 100%;
+            height: 100%;
+            display: grid;
+            grid-template-columns: 50% 50%;
+            grid-template-rows: 50% 50%;
+        }
+        #first{
+            grid-area: 1 / 1 / 1 / 1;
+            display: flex;
+            flex-direction: column;
+            padding-bottom: 10px;
+        }
+        #first > *{
+            flex: auto;
+            align-content: end;
+            margin: 0px 30% 0px 10%;
+        }
+        #second{
+            grid-area: 2 / 1 / 2 / 1;
+            display: flex;
+            flex-direction: column;
+            padding-bottom: 50px;
+        }
+        #second *{
+            flex: auto;
+            align-content: end;
+            margin: 0px 30% 0px 10%;
+        }
+        #second > div{
+            align-content: start;
+        }
+        #third{
+            grid-area: 1 / 2 / 1 / 2;
+            display: flex;
+            flex-direction: column;
+            padding-bottom: 50px;
+        }
+        #third * {
+            flex: auto;
+            margin-right: 40%;
+        }
+        #third label {        
+            align-content: end;
+        }
+        #fourth{
+            grid-area: 2 / 2 / 2 / 2;
+            display: block;
+        }
+        #fourth *{
+            margin: 10px
+        }
+    </style>
+</head>
+<body>
+    <form>
+        <div id="first">
+            <label for="name">Your name</label>
+            <input type="text" id="name" placeholder="Your name" required>
+            <label for="email">Your email</label>
+            <input type="email" id="email" placeholder="Your email" required>
+            <label for="budget">Estimated Budget ($)</label>
+            <input type="number" id="budget" placeholder="Budget" min="0">
+            <label for="deadline">Deadline</label>
+            <input type="date" id="deadline" name="deadline">
+        </div>
+        <div id="second">
+            <label for="type">Commission</label>
+            <select id="type" name="type">
+            <option value="portrait">Portrait</option>
+            <option value="logo">Logo Design</option>
+            <option value="coding">Coding</option>
+            <option value="other">Other</option>
+            </select>
+
+            <label>Urgency</label>
+            <div class="inline-group">
+                <input type="radio" name="urgency" value="normal" checked> Normal
+                <input type="radio" name="urgency" value="rush"> Rush
+            </div>
+            <label>Extras</label>
+            <div class="inline-group">
+                <input type="checkbox" name="extras" value="background">Background
+                <input type="checkbox" name="extras" value="details">More details
+                <input type="checkbox" name="extras" value="commercial">Commercial use
+            </div>
+        </div>
+        <div id="third">
+            <label for="relevance">Upload relevance</label>
+            <input type="file" id="reference" name="relevance">
+            <label for="notes">Additional Notes</label>
+            <textarea id="notes" name="notes" rows="4"></textarea>
+        </div>
+        <div id="fourth">
+            <button type="submit">Submit request</button>
+            <button type="reset">Reset</button>
+        </div>
+    </form>
+</body>
+</html>

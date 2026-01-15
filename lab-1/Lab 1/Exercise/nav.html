@@ -1,0 +1,73 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <title>Navigation</title>
+    <style>
+        html, body {
+            margin: 0;
+            padding: 0;
+            height: 100%;
+            background-color: red;
+        }
+        nav {
+            display: flex;
+            flex-direction: column;
+            height: 100%;
+            width: 100%;
+        }
+        nav a {
+            flex: 0 0 20%;
+            width: 100%;
+            display: block;
+            margin: 0;
+        }
+        nav span {
+            display: block;
+            height: 100%;
+            width: 100%;
+            background-size: contain;
+            background-repeat: no-repeat;
+            background-position: left;
+        }
+        .aboutMe {
+            background-image: url('assets/aboutMe.png');
+        }
+        .aboutMe:hover {
+            background-image: url('assets/aboutMeHover.png');
+        }
+        .myCV {
+            background-image: url('assets/myCV.png');
+        }
+        .myCV:hover {
+            background-image: url('assets/myCVHover.png');
+        }
+        .social {
+            background-image: url('assets/social.png');
+        }
+        .social:hover {
+            background-image: url('assets/socialHover.png');
+        }
+        .myHobby {
+            background-image: url('assets/myHobby.png');
+        }
+        .myHobby:hover {
+            background-image: url('assets/myHobbyHover.png');
+        }
+        .commission {
+            background-image: url('assets/commission.png');
+        }
+        .commission:hover {
+            background-image: url('assets/commissionHover.png');
+        }
+    </style>
+</head>
+<body>
+    <nav>
+        <a href="about.html" target="content"><span class="aboutMe"></span></a>
+        <a href="CV.html" target="content"><span class="myCV"></span></a>
+        <a href="social.html" target="content"><span class="social"></span></a>
+        <a href="hobby.html" target="content"><span class="myHobby"></span></a>
+        <a href="commission.html" target="content"><span class="commission"></span></a>
+    </nav>
+</body>
+</html>
